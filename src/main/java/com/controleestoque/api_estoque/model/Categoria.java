@@ -1,5 +1,6 @@
 package com.controleestoque.api_estoque.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
@@ -7,6 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "tb_categorias")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) 
 public class Categoria {
 
     @Id

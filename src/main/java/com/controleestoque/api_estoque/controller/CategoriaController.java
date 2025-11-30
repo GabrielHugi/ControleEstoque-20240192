@@ -3,6 +3,8 @@ package com.controleestoque.api_estoque.controller;
 import com.controleestoque.api_estoque.model.Categoria;
 import com.controleestoque.api_estoque.repository.CategoriaRepository;
 import lombok.RequiredArgsConstructor;
+
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -50,14 +52,17 @@ public class CategoriaController {
             .orElse(ResponseEntity.notFound().build());
     }
 
-    // delete by id
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCategoria(@PathVariable Long id) {
+    public ResponseEntity<?> deleteCategoria(@PathVariable Long id) {
         if (!categoriaRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
-
-        categoriaRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+        try {
+            categoriaRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body("Não é possível excluir a categoria pois existem produtos vinculados a ela.");
+        }
     }
 }

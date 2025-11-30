@@ -2,6 +2,7 @@ package com.controleestoque.api_estoque.controller;
 
 import java.util.List;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 
@@ -51,13 +52,18 @@ public class FornecedorController {
             .orElse(ResponseEntity.notFound().build());
     }
 
-    // delete by id
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteFornecedor(@PathVariable Long id) {
+    public ResponseEntity<?> deleteFornecedor(@PathVariable Long id) {
         if (!fornecedorRepository.existsById(id)) {
             return ResponseEntity.notFound().build();
         }
-        fornecedorRepository.deleteById(id);
-        return ResponseEntity.noContent().build();
+        try {
+            fornecedorRepository.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } catch (DataIntegrityViolationException e) {
+            // mesma coisa com o produto e etc, precisa deletar os vinculos antes
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                .body("Não é possível excluir o fornecedor pois ele está vinculado a um ou mais produtos.");
+        }
     }
 }

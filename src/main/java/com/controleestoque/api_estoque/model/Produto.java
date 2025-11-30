@@ -2,6 +2,7 @@ package com.controleestoque.api_estoque.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.math.BigDecimal;
 import java.util.Set;
@@ -35,6 +36,7 @@ public class Produto {
         joinColumns = @JoinColumn(name = "produto_id"),
         inverseJoinColumns = @JoinColumn(name = "fornecedor_id")
     )
+    @JsonIgnoreProperties("produtos")
     private Set<Fornecedor> fornecedores;
 
     public Produto () {}
