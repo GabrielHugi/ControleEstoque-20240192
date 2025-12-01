@@ -12,6 +12,7 @@ Como rodar:
 
 
 Rotina de teste com comandos curls que podem ser usados no postman:
+
 curl -X POST http://localhost:8080/api/categorias -H "Content-Type: application/json" -d '{"nome": "Eletrônicos"}'
 
 curl -X POST http://localhost:8080/api/categorias -H "Content-Type: application/json" -d '{"nome": "Livros"}'
@@ -40,8 +41,6 @@ curl -X POST http://localhost:8080/api/produtos -H "Content-Type: application/js
 
 curl -X POST http://localhost:8080/api/produtos -H "Content-Type: application/json" -d '{"nome": "Mouse Sem Fio", "preco": 150.00, "categoria": {"id": 1}, "fornecedores": [{"id": 1}]}'
 
-curl -X GET http://localhost:8080/api/produtos
-
 curl -X PUT http://localhost:8080/api/produtos/2 -H "Content-Type: application/json" -d '{"nome": "Mouse Bluetooth", "preco": 180.00, "categoria": {"id": 1}, "fornecedores": [{"id": 1}]}'
 
 curl -X PATCH http://localhost:8080/api/produtos/1/estoque -H "Content-Type: application/json" -d '{"quantidade": 50}'
@@ -55,6 +54,10 @@ curl -X POST http://localhost:8080/api/vendas -H "Content-Type: application/json
 curl -X GET http://localhost:8080/api/vendas
 
 curl -X GET http://localhost:8080/api/vendas/1
+
+curl -X GET http://localhost:8080/api/produtos/1
+
+curl -X POST http://localhost:8080/api/vendas -H "Content-Type: application/json" -d '{"clienteId": 1, "itens": [{"produtoId": 1, "quantidade": 1000}]}'
 
 curl -X GET http://localhost:8080/api/produtos/1
 
